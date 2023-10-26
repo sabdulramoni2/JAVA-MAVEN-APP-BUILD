@@ -16,19 +16,31 @@ pipeline {
             }
         }
         stage("build") {
-            script {
-               gv.buildApp
+            steps {
+                script {
+               gv.buildApp()
             }
         }
-         stage("test") {
-            script {
+        stage("test") {
+            when {
+                expression {
+                    params.executeTests
+                }
+            }
+            steps {
+                script {
                gv.testApp
+            }
             }
         }
       stage("deploy") {
-            script {
+            steps {
+                script {
               gv.deployApp
+            }
             }
         }
     }
+}
+
 }
