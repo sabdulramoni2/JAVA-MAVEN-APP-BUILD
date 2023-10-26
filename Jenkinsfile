@@ -9,13 +9,12 @@ pipeline {
         stage("build") {
             steps {
                echo 'building the application...'
-               sh "mvn install"
             }
         }
          stage("test") {
             when {
                 expression {
-                    params.executeTests == true
+                    params.executeTests
                 }
             }
             steps {
