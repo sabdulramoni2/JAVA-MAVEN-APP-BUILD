@@ -21,6 +21,8 @@ pipeline {
                gv.buildApp()
             }
         }
+
+        }
         stage("test") {
             when {
                 expression {
@@ -43,4 +45,4 @@ pipeline {
     }
 }
 
-}
+
