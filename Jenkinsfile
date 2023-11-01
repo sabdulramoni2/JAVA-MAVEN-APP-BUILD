@@ -33,7 +33,7 @@ pipeline {
                 }
             steps {
                 script {
-                    echo "dDploy the application"
+                    echo "deploy the application"
                 }
             }
         }
