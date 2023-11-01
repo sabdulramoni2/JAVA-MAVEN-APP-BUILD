@@ -2,8 +2,8 @@ def gv
 pipeline {
     agent any
     parameters {
-        choice(name: 'VERSION', choices: ['1.1.0', '1.2.0', '1.4.0'], description: '')
-        booleanParam(name: 'executeTest', defaultValue: true, description: '')
+        choice(name: 'VERSION', choices: ['1.1.0', '1.2.0', '1.4.0'], description:'')
+        booleanParam(name: 'executeTest', defaultValue: true, description:'')
     }
 
     stages {
@@ -16,19 +16,32 @@ pipeline {
             }
         }
         stage("build") {
-            script {
-               gv.buildApp
+            steps {
+                script {
+               gv.buildApp()
             }
         }
-         stage("test") {
-            script {
-               gv.testApp
+
+        }
+        stage("test") {
+
+            steps {
+                script {
+               gv.testApp()
+                }
             }
         }
       stage("deploy") {
-            script {
-              gv.deployApp
+            steps {
+                script{
+                   env.ENV = input message: 'Select the environment to deploy to', ok: 'Done', parameters: [choice(choices: ['dev', 'staging', 'prod'], description: ' ', name: 'ONE')]
+                    
+                     gv.deployApp()
+                     echo "Deploying to ${ENV}"
+                }
             }
         }
     }
 }
+
+
