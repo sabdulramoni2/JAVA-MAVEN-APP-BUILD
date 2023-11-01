@@ -1,44 +1,49 @@
 def gv
+
+
 pipeline {
     agent any
-    parameters {
-        choice(name: 'VERSION', choices: ['1.1.0', '1.2.0', '1.4.0'], description:'')
-        booleanParam(name: 'executeTest', defaultValue: true, description:'')
+    tools {
+        maven 'maven-3.9'
     }
-
     stages {
-        
+
         stage("init") {
             steps {
+                script {
+                    gv = load "script.groovy"
+                }
+                
+            }
+        }
+        stage("build jar") {
+            steps {
              script {
-                gv = load "script.groovy"
+                gv.buildJar()
              }
             }
         }
-        stage("build") {
+        stage("build image") {
             steps {
                 script {
-               gv.buildApp()
-            }
-        }
-
+                    gv.buildImage()
+                }
+             }
         }
         stage("test") {
 
             steps {
                 script {
                gv.testApp()
-                }
+            }
             }
         }
       stage("deploy") {
             steps {
-                script{
-                   env.ENV = input message: 'Select the environment to deploy to', ok: 'Done', parameters: [choice(choices: ['dev', 'staging', 'prod'], description: ' ', name: 'ONE')]
-                    
-                     gv.deployApp()
-                     echo "Deploying to ${ENV}"
-                }
+                script {
+                    gv.deployApp()
+                   
+            }
             }
         }
     }
