@@ -20,7 +20,7 @@ pipeline {
          stage ("build jar") {
             steps {
                 script {
-                    buildJar 'ashiwaju/jupiter12:jma-4.0'
+                    buildJar()
                 }
             }
         }
@@ -28,7 +28,7 @@ pipeline {
         stage ("build image") {
             steps {
                 script {
-                   buildImage()
+                   buildImage 'ashiwaju/jupiter12:jma-4.0'
                 }
             }
         }
