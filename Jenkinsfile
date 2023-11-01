@@ -25,10 +25,12 @@ pipeline {
             }
         }
 
-        stage ("build image") {
+        stage ("build and push image") {
             steps {
                 script {
                    buildImage 'ashiwaju/jupiter12:jma-4.0'
+                    dockerLogin()
+                    dockerPush 'ashiwaju/jupiter12:jma-4.0'
                 }
             }
         }
