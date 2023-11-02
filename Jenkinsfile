@@ -8,19 +8,12 @@ pipeline {
         maven 'maven-3.9'
     }
 
-    stages {
-        stage ("init") {
-            steps {
-                script {
-                    gv = load "script.groovy"
-                }
-            }
-        }
 
-         stage ("build jar") {
+         stage ("build app") {
             steps {
                 script {
-                    gv.buildJar()
+                    echo 'building the application..'
+                    sh 'mvn package'
                 }
             }
         }
